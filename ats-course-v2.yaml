@@ -1,0 +1,502 @@
+---
+openapi: "3.0.0"
+info:
+  title: "Course API"
+  version: "v2"
+  description: "<br><h2><strong>Overview</strong></h2>
+
+<p>The Course API can be used to search for courses offered from Student Information Systems / my.harvard / Campus Solutions</p>
+  <p><strong><i>Please note: This API is not currently for student use. Students who request access to this API for their apps will not be approved. </strong></i>
+  <hr>
+    <h2><strong>Getting Started</strong></h2>
+        <h3>How do I use this API?</h3>
+        <div class='over-content-requests'>
+          <p><strong>Request URL: </strong><code>https://go.apis.huit.harvard.edu/ats/course/v2/search</code></p>
+          <p><strong>Request Method: </strong> <code>GET</code></p>
+          <p><strong>Authorization: </strong> <code>API Key</code></p>
+          <ul>
+            <li><strong>Header Key: </strong> <code>X-Api-Key</code></li>
+            <li><strong>Header Value: </strong> <code>[Client ID]</code></li>
+          </ul>
+          <p><em>Note: please be sure to use the API Key in the header and not the query parameter string. For security we've blocked requests that use the API Key in the query parameter string.</em></p>
+         
+         </div>
+         
+<!--
+        <h3> Query Parameters </h3>
+              <p>type: <code>[json] or [csv]</code></p>
+              <p>since: <code>[date in format YYYY-MM-DD HH:MI:SS]</code></p>
+              <p>until: <code>[date in format YYYY-MM-DD HH:MI:SS]</code></p>
+-->
+        <h3> Sample Request URLs:</h3>
+        <div class='over-content-requests'>
+            <p>Search for a course:</p>
+            <p><code>https://go.apis.huit.harvard.edu/ats/course/v2/search?q=CS50</code></p>
+            <p>This should return a url in the 'next' param, that will look like:</p>
+            <p><code>https://go.apis.huit.harvard.edu/ats/course/v2/search/scroll/eyJzaXplIjoiNTAiLCJzb3J0IjpbeyJfc2NvcmUiOiJkZXNjIn0seyJfaWQiOiJhc2MifV0sInF1ZXJ5Ijp7ImJvb2wiOnsibXVzdF9ub3QiOltdLCJtdXN0IjpbXX19LCJzZWFyY2hfYWZ0ZXIiOlsxLCJzdWJqZWN0PUFGUkFNRVImY2F0bmJyPSUyMDEzMVkmY2xhc3NzZWN0aW9uPTEmY2xhc3NuYnI9MTkyMDAmY3JzZWlkPTIwNzgwNSZzdHJtPTIxOTgiXX0=</code></p>
+            </div>
+    <hr>
+    <h2><strong>Frequently Asked Questions</strong></h2>
+        <h3>What input/output formats are supported?</h3>
+          <p>You can request responses in either JSON or XML format. Include the outputType query parameter in your request to toggle between the supported formats. Note that the default response format is JSON.</p>
+        <h3>I received access to the API. What do I do next?</h3>
+        <p>If you've received notice that you've been granted access to the API, and you're able to see your Client ID (API Key), then you are ready to start using the API in your application. To test that your Client ID (API Key) works or to walk through a simple example, follow the <a href='/using-postman'>Postman Guide</a> here in the API portal and refer to the Getting Started section of this page for API-specific information. </p>
+    <hr>
+    <h2><strong>Request Access</strong></h2>
+        <p>To access this API, please register your app here in the API portal.  To do so you can select 'apps' from the developer dropdown in the upper right of the portal, then select '+New App', and create your app by following the instructions in the guides section.  Once you've registered your app, the Product Owner for the Courses API on the my.harvard team will be notified so they can review your request, and take appropriate action. Once approved, you'll be able to conduct API calls using the keys provided when you registered your app.</p>
+    <hr>
+    <h2><strong>Service Level Agreement</strong></h2>
+        <p>A data refresh occurs on a daily basis between 4 AM and 5 AM EST.  During that time, a 500 error will be returned.</p>
+        <p>Other than the daily refresh window, this API is available 24/7. </p>
+        <p>There is also a monthly maintenance window which varies by month.  For more information, please review the <a href='https://harvard.service-now.com/ithelp/qualtrics.harvard.edu?id=kb_article&sys_id=094bff79db2d4708a914fff31d961911'>my.Harvard Monthly Maintenance Schedule</a><p>
+        <p>Support for this service is during business hours only.</p>
+        <p>If you need support, please enter a Service Now ticket. For product-level support needs such as new feature requests, please contact the Product Owner for the Courses API: Craig Madore.
+    <hr>
+    <h2><strong>Terms of Use</strong></h2>
+        <p>All existing, University-wide policies regarding data usage have been reviewed and MUST be followed as documented:</p>
+        <ul>
+          <li><a href='https://policy.security.harvard.edu/'>Harvard Information Security Policy</a></li>
+          <li><a href='http://hwpi.harvard.edu/files/provost/files/policy_on_access_to_electronic_information.pdf'>Policy on Access to Electronic Information</a></li>
+          <li><a href='https://huit.harvard.edu/it-professional-code-conduct-protect-electronic-information'>IT Professional Code of Conduct</a></li>
+          <li><a href='https://policy.security.harvard.edu/u15--Confidentiality-agreement-and-training'>Confidentiality Agreement and Training</a></li>
+          <li><a href='https://ogc.harvard.edu/book/breach-data-security-what-do'>Data Breach Policy</a></li>
+          <li>All application infrastructure receiving data must conform to <a href='https://policy.security.harvard.edu/level-3'>Harvard Information Security Policy for Level 3 data.</a></li>
+        </ul>
+
+        <p>Equivalent security, NDA, <a href='https://security.harvard.edu/node/55246'>Contract Riders</a> and other relevant requirements are in place for Contractors/Vendors/3rd Parties</p>
+        <p>Redistribution of data is strictly prohibited without written consent.</p>
+  "
+servers:
+- url: "https://go.apis.huit.harvard.edu/ats/course/v2"
+  description: "Production"
+paths:
+  /search:
+    get:
+      responses:
+        "200":
+          description: ""
+          content:
+            application/json:
+              schema:
+                type: "object"
+                items:
+                  $ref: "#/components/schemas/Course"
+      operationId: "GET_courses"
+      parameters:
+      - name: "q"
+        in: "query"
+        description: "Query string to search on. Can search on course title, subject\
+          \ and concatenated catalog subject."
+        schema:
+          type: "string"
+      - name: "catalogSchool"
+        in: "query"
+        schema:
+          type: "array"
+          items:
+            $ref: "#/components/schemas/catalogSchool"
+      - name: "catalogSubject"
+        in: "query"
+        description: "There are over 1400 subject codes, for example Computer Science\
+          \ - COMPSCI. The list of valid codes will be published/maintained in the\
+          \ My.Harvard Class Business Glossary. For schools like SEAS, they can ask\
+          \ for all the subjectCodes - up to 20 at one time (since they are unique)\
+          \ offered in their school in a single query.\n"
+        schema:
+          type: "array"
+          items:
+            type: "string"
+      - name: "classKey"
+        in: "query"
+        description: "This searches the classKey field.\n"
+        schema:
+          type: "string"
+      - name: "session"
+        in: "query"
+        description: "This searches on the sessionCode field.\n"
+        schema:
+          type: "string"
+      - name: "term"
+        in: "query"
+        description: "The term code, also known as the STRM.\n"
+        schema:
+          type: "string"
+      - name: "size"
+        in: "query"
+        description: "The limit on the number of records returned. Defaults to 50.\
+          \ Max is 1000.\n"
+        schema:
+          type: "number"
+      - name: "XregEligible"
+        in: "query"
+        description: "Use this if you're looking for just Cross-Registration Eligible\
+          \ courses. Y gets all YESXREG. \n"
+        schema:
+          enum:
+          - "Y"
+          - "N"
+          type: "string"
+      - name: "courseID"
+        in: "query"
+        description: "Use this for getting a specific course ID. Note that this could\
+          \ return multiple results as a course could return multiple instances. \n"
+        schema:
+          type: "string"
+      - name: "scroll"
+        in: "query"
+        example: true
+        description: "Use this to initiate pagination. It will return the \"next\"\
+          \ field in the payload which you can use to continue paging through the\
+          \ results.\n"
+        schema:
+          type: "string"
+      security:
+      - apikey: []
+  /search/scroll/{hash}:
+    get:
+      description: "This endpoint is for pagination. It is stateful, so if it is run\
+        \ while the index is being rebuild, it could return dupes. A link, including\
+        \ the hash will be produced when the /search endpoint is called with the scroll\
+        \ query parameter\n"
+      parameters:
+      - name: "hash"
+        in: "path"
+        required: true
+        schema:
+          type: "string"
+          format: "int64"
+          description: "This is a base64 encoded string"
+      responses:
+        "200":
+          description: ""
+  /monitor/health:
+    get:
+      responses:
+        "200":
+          description: ""
+      operationId: "GET_monitor-health"
+components:
+  schemas:
+    Course:
+      type: "object"
+      properties:
+        courseID:
+          minLength: 6
+          maxLength: 6
+          description: "Unique value that is shared among all the elements of a course,\
+            \ that is all class instances of a course will have the same courseID."
+          type: "string"
+        classKey:
+          description: "Immutable key assigned to each class."
+          type: "string"
+        classNumber:
+          description: "Course instance id\n"
+          example: "15753"
+          type: "string"
+          x-annotation-Release-Notes: "This is a new field in v1.2\n"
+        term:
+          description: "Term Code. \n"
+          example: "2192"
+          type: "string"
+          x-annotation-Release-Notes: "This used to be the term code value"
+        termDescription:
+          minLength: 1
+          maxLength: 30
+          description: "Term description.\n"
+          example: "Fall 2018"
+          type: "string"
+          x-annotation-Release-Notes: "This used to be \"term\" value\n"
+        sessionCode:
+          example: "1"
+          type: "string"
+        sessionDescription:
+          minLength: 1
+          maxLength: 30
+          description: "The portion of the term in which a class is scheduled.  Classes\
+            \ the run the length of the term are \"Full Term\".\n"
+          type: "string"
+        sectionNumber:
+          minLength: 1
+          maxLength: 20
+          description: "Identifies a specific section of a course e.g,. 001 as in\
+            \ CS 50-001"
+          type: "string"
+        classCatalogNumber:
+          example: "985JA"
+          type: "string"
+          x-annotation-Release-Notes: "This is a new field in v1.2\n"
+        catalogSchool:
+          enum:
+          - ""
+          - "FAS"
+          - "GSAS"
+          - "GSD"
+          - "HBSD"
+          - "HBSM"
+          - "HDS"
+          - "HGSE"
+          - "HKS"
+          - "HLS"
+          - "HMS"
+          - "HSDM"
+          - "HSPH"
+          - "NONH"
+          type: "string"
+        catalogSchoolDescription:
+          example: "Faculty of Arts & Sciences"
+          type: "string"
+          x-annotation-Release-Notes: "This is a new field in v1.2\n"
+        catalogSubject:
+          minLength: 1
+          maxLength: 8
+          description: "There are over 1400 different subjects at the university.\
+            \ Each of them is unique.\n"
+          type: "string"
+        catalogSubjectDescription:
+          type: "string"
+          x-annotation-Release-Notes: "This is a new field in v1.2\n"
+        classStatus:
+          minLength: 1
+          maxLength: 30
+          description: "Indicates the status of the class, for example Active, Cancelled."
+          type: "string"
+        courseDescription:
+          minLength: 0
+          maxLength: 4000
+          description: "This value can and often does contain HTML tags.\n"
+          type: "string"
+        courseNumber:
+          minLength: 1
+          maxLength: 10
+          description: "Part of the course identification, for example 50A or CS 50"
+          type: "string"
+        courseTitle:
+          minLength: 0
+          maxLength: 100
+          type: "string"
+        courseWebsite:
+          type: "string"
+        courseNotes:
+          type: "string"
+        classLevelAttribute:
+          example: "GRADCOURSE"
+          type: "string"
+          x-annotation-Release-Notes: "This is a new field in v1.2\n"
+        classLevelAttributeDescription:
+          example: "Graduate Course"
+          type: "string"
+          x-annotation-Release-Notes: "This is a new field in v1.2\n"
+        classMinUnits:
+          example: "4"
+          type: "string"
+          x-annotation-Release-Notes: "This is a new field in v1.2\n"
+        classMaxUnits:
+          example: "4"
+          type: "string"
+          x-annotation-Release-Notes: "This is a new field in v1.2\n"
+        crossRegistrationEligibleAttribute:
+          example: "YESXREG"
+          type: "string"
+          x-annotation-Release-Notes: "This is a new field in v1.2\n"
+        gradingBasis:
+          description: "code indicating how a class is graded. for example, letter-graded\
+            \ or pass/fail.\n"
+          type: "string"
+          x-annotation-Release-Notes: "This is a new field in v1.2\n"
+        gradingBasisDescription:
+          description: "description of how a class is graded.  for example, letter-graded\
+            \ or pass/fail.\n"
+          type: "string"
+          x-annotation-Release-Notes: "This is a new field in v1.2\n"
+        gradingOption:
+          type: "array"
+          items:
+            type: "object"
+            properties:
+              code:
+                description: "when a student can choose how to be graded in a class,\
+                  \ this is the list of options.  these are the codes.\n"
+                type: "string"
+              description:
+                description: "when a student can choose how to be graded in a class,\
+                  \ this is the list of options.  these are the descriptions. \n"
+                type: "string"
+        startDate:
+          type: "string"
+          example: "2019-09-02"
+          x-annotation-FieldName: "START_DT_ORCL_ES_ENG"
+          x-annotation-Release-Notes: "New in v2"
+        endDate:
+          type: "string"
+          example: "2019-09-03"
+          x-annotation-FieldName: "END_DT_ORCL_ES_ENG"
+          x-annotation-Release-Notes: "New in v2"
+        classCapacity:
+          type: "string"
+          example: ""
+          x-annotation-FieldName: "ENRL_CAP"
+          x-annotation-Release-Notes: "New in v2"
+        classAlias:
+          type: "string"
+          example: ""
+          x-annotation-FieldName: "HU_ALIAS_CATNBR_NS"
+          x-annotation-Release-Notes: "New in v2"
+        subjectDescription:
+          type: "string"
+          example: ""
+          x-annotation-FieldName: "IS_SCL_DESCR_IS_SCL_DESCRD"
+          x-annotation-Release-Notes: "New in v2"
+        classNotes:
+          type: "string"
+          example: ""
+          x-annotation-FieldName: "IS_SCL_DESCR_IS_SCL_DESCRN"
+          x-annotation-Release-Notes: "New in v2"
+        divisionalDistribution:
+          type: "string"
+          example: ""
+          x-annotation-FieldName: "IS_SCL_DESCR100_HU_SCL_ATTR_LDD"
+          x-annotation-Release-Notes: "New in v2"
+        quantitativeReasoning:
+          type: "string"
+          example: ""
+          x-annotation-FieldName: "IS_SCL_DESCR100_HU_SCL_ATTR_LQR"
+          x-annotation-Release-Notes: "New in v2"
+        consent:
+          type: "string"
+          example: ""
+          x-annotation-FieldName: "CONSENT_ORCL_ES_ENG"
+          x-annotation-Release-Notes: "New in v2"
+        dropConsent:
+          type: "string"
+          example: ""
+          x-annotation-FieldName: "SSR_DROP_CONSENT"
+          x-annotation-Release-Notes: "New in v2"
+        courseComponent:
+          type: "string"
+          example: ""
+          x-annotation-FieldName: "SSR_COMPONENTDESCR"
+          x-annotation-Release-Notes: "New in v2"
+        coopLink:
+          type: "string"
+          example: ""
+          x-annotation-FieldName: "IS_SCL_DESCR_HU_SCL_COOP_LINK"
+          x-annotation-Release-Notes: "New in v2"
+        publishedInstructors:
+          type: "array"
+          items:
+            type: "object"
+            properties:
+              instructorName:
+                example: "John Harvard"
+                type: "string"
+              instructorID:
+                description: "HUID / univId / emplId\n"
+                type: "string"
+              netId:
+                description: "netId / adid\n"
+                type: "string"
+              eppn:
+                description: "eppn, a 16 digit identifier used by IAM\n"
+                type: "string"
+              uuid:
+                description: "uuid\n"
+                type: "string"
+            required:
+            - "instructorName"
+          x-annotation-Release-Notes: "role was removed in v1.2\n"
+        meetings:
+          type: "array"
+          items:
+            type: "object"
+            properties:
+              daysOfWeek:
+                type: "array"
+                items:
+                  enum:
+                  - "TBA"
+                  - "Monday"
+                  - "Tuesday"
+                  - "Wednesday"
+                  - "Thursday"
+                  - "Friday"
+                  - "Saturday"
+                  - "Sunday"
+                  type: "string"
+              startDate:
+                example: ""
+                type: "string"
+              endDate:
+                example: ""
+                type: "string"
+              startTime:
+                example: "10:00am"
+                type: "string"
+              endTime:
+                example: "10:45am"
+                type: "string"
+              location:
+                type: "string"
+                example: ""
+      required:
+      - "courseID"
+      - "classKey"
+      - "classNumber"
+      - "term"
+      - "termDescription"
+      - "sessionCode"
+      - "sessionDescription"
+      - "sectionNumber"
+      - "classCatalogNumber"
+      - "catalogSchool"
+      - "catalogSchoolDescription"
+      - "catalogSubject"
+      - "catalogSubjectDescription"
+      - "classStatus"
+      - "courseDescription"
+      - "courseNumber"
+      - "courseTitle"
+      - "courseWebsite"
+      - "courseNotes"
+      - "classLevelAttribute"
+      - "classLevelAttributeDescription"
+      - "classMinUnits"
+      - "classMaxUnits"
+      - "crossRegistrationEligibleAttribute"
+      - "gradingBasis"
+      - "gradingBasisDescription"
+      - "publishedInstructors"
+      - "meetings"
+      x-annotation-Release-Notes: "v1.2: Everything beyond courseID used to be in\
+        \ a sub-element called \"classes\" -- this was flattened.\n"
+    catalogSchool:
+      enum:
+      - ""
+      - "FAS"
+      - "GSAS"
+      - "GSD"
+      - "HBSD"
+      - "HBSM"
+      - "HDS"
+      - "HGSE"
+      - "HKS"
+      - "HLS"
+      - "HMS"
+      - "HSDM"
+      - "HSPH"
+      - "NONH"
+      type: "string"
+  responses: {}
+  parameters: {}
+  examples: {}
+  requestBodies: {}
+  headers: {}
+  securitySchemes:
+    apikey:
+      description: "This API supports APIKey Authentication.\n"
+      type: "apiKey"
+      in: "header"
+      name: "X-Api-Key"
+  links: {}
+  callbacks: {}
+
+
